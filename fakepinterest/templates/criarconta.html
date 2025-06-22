@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'homepage.html' %}
 
-</body>
-</html>
+{% block titulo %}
+	Criar Conta - FakePinterest
+{% endblock %}
+
+{% block formulario %}
+    <form action="" method="post">
+        {{ form.csrf_token }}
+        {{ form.username.label }}
+        {{ form.username }}
+
+        {{ form.email.label }}
+        {{ form.email }}
+
+        {{ form.senha.label }}
+        {{ form.senha }}
+
+        {{ form.confirmacao_senha.label }}
+        {{ form.confirmacao_senha }}
+
+        {{ form.botao_confirmacao }}
+    </form>
+{% endblock %}

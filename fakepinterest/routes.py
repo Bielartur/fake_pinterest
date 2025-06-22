@@ -1,14 +1,19 @@
 from flask import render_template, url_for
+from flask_login import login_required
+
 from fakepinterest import app
-from flask_login import login_required, current_user
+from fakepinterest.forms import FormLogin, FormCriarConta
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
-  return render_template('homepage.html')
+  formlogin = FormLogin()
+  return render_template('homepage.html', form=formlogin)
 
-@app.route('/criarconta')
+@app.route('/criarconta', methods=['GET', 'POST'])
 def criarconta():
-  return render_template('criarconta.html')
+  formcriarconta = FormCriarConta()
+  return render_template('criarconta.html', form=formcriarconta)
 
 @app.route('/perfil/<usuario>',)
 @login_required
