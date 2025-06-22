@@ -6,6 +6,10 @@ from flask_login import login_required, current_user
 def homepage():
   return render_template('homepage.html')
 
+@app.route('/criarconta')
+def criarconta():
+  return render_template('criarconta.html')
+
 @app.route('/perfil/<usuario>',)
 @login_required
 def perfil(usuario):
