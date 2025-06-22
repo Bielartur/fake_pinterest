@@ -5,6 +5,18 @@ Fake Pinterest
 {% endblock title %}
 
 {% block content %}
-  <h1>Fake Pinterest - Meu primeiro site no ar</h1>
-  <p>Vamo simbora</p>
+    <h1>Fake Pinterest - Meu primeiro site no ar</h1>
+    <p>Vamo simbora</p>
+    {% block formulario %}
+    <form action="" method="post">
+        {{ form.csrf_token }}
+        {{ form.email.label(class='bg-red-600 text-white') }}
+        {{ form.email }}
+
+        {{ form.senha.label }}
+        {{ form.senha }}
+
+        {{ form.botao_confirmacao }}
+    </form>
+    {% endblock %}
 {% endblock content %}
