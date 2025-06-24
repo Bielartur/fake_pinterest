@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    {% include 'navbar.html' %}
     {% if form %}
         <form method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
@@ -13,7 +14,6 @@
         </form>
     {% endif %}
     <h1>Perfil do usuário: {{ usuario.email }}</h1>
-    <a href="{{ url_for('logout') }}">Sair</a>
 
     {% for foto in usuario.fotos %}
         <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
