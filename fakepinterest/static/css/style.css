@@ -234,3 +234,8 @@ img {
   display: flex;
   column-gap: 20px;
 }
+
+.mensagem-erro {
+  color: #cc0000;
+  font-size: 0.8rem;
+}
