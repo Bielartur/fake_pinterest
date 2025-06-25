@@ -194,3 +194,4 @@ cython_debug/
 .cursorindexingignore
 
 criar_banco.py
+Layout/
