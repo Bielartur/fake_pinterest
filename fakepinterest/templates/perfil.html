@@ -13,7 +13,7 @@
             {{ form.botao_confirmacao }}
         </form>
     {% endif %}
-    <h1>Perfil do usuário: {{ usuario.email }}</h1>
+    <h1>Perfil do usuário: {{ usuario.username }}</h1>
 
     {% for foto in usuario.fotos %}
         <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
