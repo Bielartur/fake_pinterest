@@ -32,10 +32,10 @@
                     <h2>Bem-vindo(a) ao FakePinterest</h2>
 
                     <div class="div-input">
-                        {{ form.email.label(class='label') }}
-                        {{ form.email(class='input') }}
-                        {% if form.email.errors %}
-                            {% for erro in form.email.errors %}
+                        {{ form.login.label(class='label') }}
+                        {{ form.login(class='input') }}
+                        {% if form.login.errors %}
+                            {% for erro in form.login.errors %}
                                 <p class="mensagem-erro">{{ erro }}</p>
                             {% endfor %}
                         {% endif %}

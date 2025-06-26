@@ -12,7 +12,10 @@ from werkzeug.utils import secure_filename
 def homepage():
   formlogin = FormLogin()
   if formlogin.validate_on_submit():
-    usuario = Usuario.query.filter_by(email=formlogin.email.data).first()
+    usuario = Usuario.query.filter_by(email=formlogin.login.data).first()
+    if not usuario:
+      usuario = Usuario.query.filter_by(username=formlogin.login.data).first()
+
     if usuario and bcrypt.check_password_hash(usuario.senha, formlogin.senha.data):
       login_user(usuario)
       return redirect(url_for('perfil', id_usuario=usuario.id))
