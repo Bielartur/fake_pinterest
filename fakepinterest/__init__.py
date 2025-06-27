@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 import os
 app = Flask(__name__)
-if os.getenv('DEBUG') == 0:
+if int(os.getenv('DEBUG')) == 0:
     LINK_BANCO = os.getenv('DATABASE_URL')
 else:
     LINK_BANCO = 'sqlite:///comunidade.db'
