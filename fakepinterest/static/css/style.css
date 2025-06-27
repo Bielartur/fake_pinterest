@@ -182,6 +182,11 @@ img {
   box-sizing: border-box;
 }
 
+.bloco-imagem {
+  position: relative;
+  transition: all ease .3s;
+}
+
 .bloco-imagem img {
   border-radius: 20px;
   height: 40vh;
@@ -238,4 +243,43 @@ img {
 .mensagem-erro {
   color: #cc0000;
   font-size: 0.8rem;
+}
+
+.gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #333 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 20px;
+}
+
+.hover-deletar:hover .gradient-overlay {
+  opacity: 1;
+}
+
+.hover-deletar:hover .botao-deletar{
+  transition: all ease .3s;
+  bottom: 1rem;
+  opacity: 1;
+}
+
+.botao-deletar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.4rem;
+  height: 36px;
+  width: 36px;
+  background-color: #333333;
+  opacity: 0;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.fa-trash {
+  color: #e60023;
 }

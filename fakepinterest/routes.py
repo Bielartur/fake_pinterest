@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request
 from flask_login import login_required, login_user, logout_user, current_user
 
 from fakepinterest.models import Usuario, Foto
@@ -54,6 +54,13 @@ def perfil(id_usuario):
       foto = Foto(imagem=nome_seguro, id_usuario=current_user.id)
       database.session.add(foto)
       database.session.commit()
+
+    if request.method == 'POST':
+      deletar_imagem = request.form.get('deletar-imagem')
+      if deletar_imagem:
+          Foto.query.filter_by(id=int(deletar_imagem)).delete()
+          database.session.commit()
+
     return render_template('perfil.html', usuario=current_user, form=form_foto)
   else:
     usuario = Usuario.query.get_or_404(int(id_usuario))

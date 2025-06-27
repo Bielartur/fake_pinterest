@@ -31,8 +31,17 @@
 
         <div class="conteudo">
             {% for foto in usuario.fotos %}
-                <div class="bloco-imagem">
+                <div class="bloco-imagem {% if form %}hover-deletar{% endif %}">
                     <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
+                    {% if form %}
+                        <div class="gradient-overlay"></div>
+                        <form method="post">
+                            {{ form.csrf_token }}
+                            <button type="submit" name="deletar-imagem" class="botao-deletar" value="{{ foto.id }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
