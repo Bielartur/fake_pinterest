@@ -8,6 +8,14 @@
                 <div class="bloco-imagem">
                     <a href="{{ url_for('perfil', id_usuario=foto.usuario.id) }}">
                         <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
+                        <div class="gradient-overlay"></div>
+                        <div class="info-usuario-container">
+                            <div class="div-logo-usuario">
+                                <img src="{{ url_for('static', filename='fotos_site/user-default.png') }}"
+                                     alt="Logo do usuário {{ foto.usuario.username }}">
+                            </div>
+                            <span>{{ foto.usuario.username }}</span>
+                        </div>
                     </a>
                 </div>
             {% endfor %}
