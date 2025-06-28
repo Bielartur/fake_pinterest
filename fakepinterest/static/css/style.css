@@ -227,6 +227,7 @@ img {
 
 .form-post-img {
   display: flex;
+  gap: 0.5rem;
 }
 
 .input-arquivo {
