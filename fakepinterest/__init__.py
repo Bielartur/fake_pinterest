@@ -14,7 +14,9 @@ else:
 
 app.config['SQLALCHEMY_DATABASE_URI'] = LINK_BANCO
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['UPLOAD_FOLDER'] = 'static/fotos_posts'
+# app.config['UPLOAD_FOLDER'] = 'static/fotos_posts'
+app.config['UPLOAD_FOLDER_POSTS'] = 'static/fotos_posts'
+app.config['UPLOAD_FOLDER_PERFIL'] = 'static/fotos_perfil'
 
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
