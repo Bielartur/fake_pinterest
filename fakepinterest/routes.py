@@ -28,6 +28,7 @@ def homepage():
 def criarconta():
     form_criarconta = FormCriarConta()
     if form_criarconta.validate_on_submit():
+        # Cria o usuário
         senha = bcrypt.generate_password_hash(form_criarconta.senha.data).decode('utf-8')
         usuario = Usuario(
             username=form_criarconta.username.data,
@@ -35,6 +36,27 @@ def criarconta():
             senha=senha,
         )
         database.session.add(usuario)
+        database.session.commit()
+
+        # Cria define uma foto padrão ao usuário
+        usuario = Usuario.query.filter_by(username=form_criarconta.username.data).first()
+
+        if form_criarconta.foto.data:
+            arquivo = form_criarconta.foto.data
+            nome_seg = secure_filename(arquivo.filename)
+            pasta_perfil = current_app.config['UPLOAD_FOLDER_PERFIL']
+            caminho = os.path.join(current_app.root_path, pasta_perfil, nome_seg)
+            arquivo.save(caminho)
+
+            if usuario.foto_perfil:
+                usuario.foto_perfil.imagem = nome_seg
+            else:
+                fp = FotoPerfil(imagem=nome_seg, id_usuario=usuario.id)
+                database.session.add(fp)
+        else:
+            fp = FotoPerfil(id_usuario=usuario.id)
+            database.session.add(fp)
+
         database.session.commit()
         login_user(usuario, remember=True)
         return redirect(url_for('feed'))

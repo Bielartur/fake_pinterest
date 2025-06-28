@@ -99,6 +99,10 @@ img {
   background-color: #fff;
 }
 
+.popup-compacto {
+  gap: 0.6rem
+}
+
 .div-input {
   width: 100%;
   display: flex;
@@ -136,6 +140,10 @@ img {
   border-radius: 20px;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
+}
+
+.input-compacto {
+  padding: 12px;
 }
 
 .botao-login {

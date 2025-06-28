@@ -6,7 +6,7 @@
 
 {% block content %}
     {% include 'navbar.html' %}
-    <form method="post" class="popup" enctype="multipart/form-data" style="padding-top: 0.2rem; gap: 0.6rem">
+    <form method="post" class="popup popup-compacto" enctype="multipart/form-data" style="padding-top: 0.2rem">
         {{ form.csrf_token }}
         <div class="div-foto-usuario">
             <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil.imagem)) }}"

@@ -32,8 +32,12 @@
             </div>
             </div>
         {% else %}
-            <div class="div-perfil">
-                <h2>Perfil de {{ usuario.username }}</h2>
+            <div class="bloco-add-img">
+                <div class="div-foto-usuario">
+                    <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil.imagem)) }}"
+                         alt="Logo do usuário {{ usuario.username }}">
+                </div>
+                <h2 class="nome-usuario">{{ usuario.username }}</h2>
             </div>
         {% endif %}
 
@@ -44,7 +48,7 @@
                 <div class="gradient-overlay"></div>
                 <div class="info-usuario-container">
                     <div class="div-logo-usuario">
-                        <img src="{{ url_for('static', filename='fotos_perfil/user-default.png') }}"
+                        <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(foto.usuario.foto_perfil.imagem)) }}"
                              alt="Logo do usuário {{ foto.usuario.username }}">
                     </div>
                     <span>{{ foto.usuario.username }}</span>
@@ -60,7 +64,10 @@
             </div>
         {% endfor %}
     </div>
+    </body>
+{% endblock %}
 
+{% block script %}
     <script>
         let input = document.getElementById("foto");
         let imagemArquivo = document.getElementById("imagem-arquivo");
@@ -72,6 +79,4 @@
             imagemArquivo.innerText = inputImagem.name;
         });
     </script>
-    </body>
-
 {% endblock %}
