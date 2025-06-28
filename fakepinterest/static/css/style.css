@@ -219,6 +219,10 @@ img {
   column-gap: 10px;
 }
 
+.form-post-img {
+  display: flex;
+}
+
 .input-arquivo {
   display: none;
 }
@@ -324,4 +328,19 @@ img {
   width: 100%;
   font-weight: 600;
   font-size: 28px;
+}
+
+.foto-usuario {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: #333333;
+}
+
+.nome-usuario {
+  font-size: 1.8rem;
+}
+
+.form-post-img {
+  margin-bottom: 1rem;
 }

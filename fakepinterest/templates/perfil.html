@@ -8,11 +8,14 @@
     <body>
     {% include 'navbar.html' %}
     <div class="container">
-        {% if form %}
-            <form method="post" enctype="multipart/form-data" class="bloco-add-img">
-                {{ form.csrf_token }}
-                <h2>{{ usuario.username }} - Enviar foto</h2>
+    {% if form %}
+        <div class="bloco-add-img">
+            {#                <img src="{{ usuario.imagem_perfil }}" alt="Logo do usuário {{ usuario.username }}">#}
+            <div class="foto-usuario"></div>
+            <h2 class="nome-usuario">{{ usuario.username }}</h2>
 
+            <form method="post" enctype="multipart/form-data" class="form-post-img">
+                {{ form.csrf_token }}
                 <div class="bloco-arquivo">
                     <label for="foto" class="botao-arquivo">
                         Escolher arquivo
@@ -23,35 +26,36 @@
 
                 {{ form.botao_confirmacao(class='botao-login') }}
             </form>
-        {% else %}
-            <div class="div-perfil">
-                <h2>Perfil de {{ usuario.username }}</h2>
-            </div>
-        {% endif %}
-
-        <div class="conteudo">
-            {% for foto in usuario.fotos %}
-                <div class="bloco-imagem">
-                    <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
-                    <div class="gradient-overlay"></div>
-                    <div class="info-usuario-container">
-                        <div class="div-logo-usuario">
-                            <img src="{{ url_for('static', filename='fotos_site/user-default.png') }}"
-                                 alt="Logo do usuário {{ foto.usuario.username }}">
-                        </div>
-                        <span>{{ foto.usuario.username }}</span>
-                    </div>
-                    {% if form %}
-                        <form method="post">
-                            {{ form.csrf_token }}
-                            <button type="submit" name="deletar-imagem" class="botao-deletar" value="{{ foto.id }}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </form>
-                    {% endif %}
-                </div>
-            {% endfor %}
         </div>
+    </div>
+    {% else %}
+    <div class="div-perfil">
+        <h2>Perfil de {{ usuario.username }}</h2>
+    </div>
+    {% endif %}
+
+    <div class="conteudo">
+    {% for foto in usuario.fotos %}
+        <div class="bloco-imagem">
+            <img src="{{ url_for('static', filename='fotos_posts/{}'.format(foto.imagem)) }}" alt="Default">
+            <div class="gradient-overlay"></div>
+            <div class="info-usuario-container">
+                <div class="div-logo-usuario">
+                    <img src="{{ url_for('static', filename='fotos_site/user-default.png') }}"
+                         alt="Logo do usuário {{ foto.usuario.username }}">
+                </div>
+                <span>{{ foto.usuario.username }}</span>
+            </div>
+            {% if form %}
+                <form method="post">
+                    {{ form.csrf_token }}
+                    <button type="submit" name="deletar-imagem" class="botao-deletar" value="{{ foto.id }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
     </div>
 
     <script>
