@@ -107,6 +107,12 @@ img {
   row-gap: 5px;
 }
 
+.div-input p, #bloco-arquivo {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0;
+}
+
 .div-botao {
   width: 100%;
   display: flex;
