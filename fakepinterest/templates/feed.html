@@ -11,7 +11,7 @@
                         <div class="gradient-overlay"></div>
                         <div class="info-usuario-container">
                             <div class="div-logo-usuario">
-                                <img src="{{ url_for('static', filename='fotos_site/user-default.png') }}"
+                                <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(foto.usuario.foto_perfil.imagem)) }}"
                                      alt="Logo do usuário {{ foto.usuario.username }}">
                             </div>
                             <span>{{ foto.usuario.username }}</span>

@@ -24,9 +24,18 @@
         </a>
 
         <div class="restante-nav">
+            {% if current_user.is_authenticated %}
+            <p class="botao-perfil">
+                <a href="{{ url_for('editar_perfil', id_usuario=current_user.id) }}" class="link-nav">Editar perfil</a>
+            </p>
             <p class="botao-perfil">
                 <a href="{{ url_for('perfil', id_usuario=current_user.id) }}" class="link-nav">Perfil</a>
             </p>
+            {% else %}
+            <p class="botao-perfil">
+                <a href="" class="link-nav">Perfil</a>
+            </p>
+            {% endif %}
             <a href="{{ url_for('logout') }}" class="link-nav" style="display: flex; gap: 0.5rem; align-items: center">
                 Sair<i class="fa-solid fa-right-from-bracket"></i>
             </a>

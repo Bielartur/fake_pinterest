@@ -1,4 +1,6 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from fakepinterest.models import Usuario
@@ -36,6 +38,7 @@ class FormCriarConta(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     confirmacao_senha = PasswordField('Confirmar senha', validators=[DataRequired(), EqualTo('senha')])
+    foto = FileField('Foto de perfil')
     botao_confirmacao = SubmitField('Criar Conta')
 
     def validate_email(self, email):
@@ -51,4 +54,20 @@ class FormCriarConta(FlaskForm):
 
 class FormFoto(FlaskForm):
     foto = FileField('Foto', validators=[DataRequired()])
-    botao_confirmacao = SubmitField('Enviar')
+    botao_post = SubmitField('Enviar')
+
+class FormEditarPerfil(FlaskForm):
+    username = StringField('Nome de usuário', validators=[DataRequired()])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    foto = FileField('Foto de Perfil', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    botao_confirmacao = SubmitField('Salvar')
+
+    def validate_email(self, email):
+        usuario = Usuario.query.filter_by(email=email.data).first()
+        if usuario != current_user:
+            raise ValidationError('E-mail já cadastrado, faça login para continuar')
+
+    def validate_username(self, username):
+        usuario = Usuario.query.filter_by(username=username.data).first()
+        if usuario != current_user:
+            raise ValidationError('Nome de usuário já cadastrado, faça login para continuar')

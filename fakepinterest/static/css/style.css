@@ -99,12 +99,22 @@ img {
   background-color: #fff;
 }
 
+.popup-compacto {
+  gap: 0.6rem
+}
+
 .div-input {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 5px;
+}
+
+.div-input p, #bloco-arquivo {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0;
 }
 
 .div-botao {
@@ -130,6 +140,10 @@ img {
   border-radius: 20px;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
+}
+
+.input-compacto {
+  padding: 12px;
 }
 
 .botao-login {
@@ -219,6 +233,11 @@ img {
   column-gap: 10px;
 }
 
+.form-post-img {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .input-arquivo {
   display: none;
 }
@@ -298,8 +317,8 @@ img {
 }
 
 .div-logo-usuario img {
-  width: 32px;
-  height: 32px;
+  width: 100%;
+  height: 100%;
 }
 
 .botao-deletar {
@@ -324,4 +343,35 @@ img {
   width: 100%;
   font-weight: 600;
   font-size: 28px;
+}
+
+.div-foto-usuario {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: #333333;
+}
+
+.div-foto-usuario img {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+
+.icone-add-imagem {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  right: -1.2rem;
+  bottom: 0;
+}
+
+.nome-usuario {
+  font-size: 1.8rem;
+}
+
+.form-post-img {
+  margin-bottom: 1rem;
 }
