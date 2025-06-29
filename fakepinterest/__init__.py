@@ -5,7 +5,9 @@ from flask_bcrypt import Bcrypt
 from flask_talisman import Talisman
 from dotenv import load_dotenv
 import os
+
 app = Flask(__name__)
+
 csp = {
     'default-src': ["'self'"],
 
@@ -55,5 +57,10 @@ database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'homepage'
+
+# === CRIAÇÃO AUTOMÁTICA DE TABELAS ===
+@app.before_first_request
+def criar_tabelas():
+    database.create_all()
 
 from fakepinterest import routes
