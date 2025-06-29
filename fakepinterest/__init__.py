@@ -63,7 +63,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'homepage'
 
 # === CRIAÇÃO AUTOMÁTICA DE TABELAS ===
-@app.before_first_request
+@app.before_request
 def criar_tabelas():
     database.create_all()
 
