@@ -1,70 +1,59 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Editar perfil
+Editar perfil
 {% endblock %}
 
 {% block content %}
-    {% include 'navbar.html' %}
-    <form method="post" class="popup popup-compacto" enctype="multipart/form-data" style="padding-top: 0.2rem">
+<body>
+{% include 'navbar.html' %}
+<form method="post" class="popup popup-compacto" enctype="multipart/form-data" style="padding-top: 0.2rem">
+    {{ form.csrf_token }}
+    <div class="div-foto-usuario">
+        <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil.imagem)) }}"
+             alt="Logo do usuário {{ usuario.username }}">
+    </div>
+    <h2 class="nome-usuario">{{ usuario.username }}</h2>
+
+    <div class="div-input">
+        {{ form.username.label(class='label') }}
+        {{ form.username(class='input', value=usuario.username) }}
+        {% if form.username.errors %}
+        {% for erro in form.username.errors %}
+        <p class="mensagem-erro">{{ erro }}</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="div-input">
+        {{ form.email.label(class='label') }}
+        {{ form.email(class='input', value=usuario.email) }}
+        {% if form.email.errors %}
+        {% for erro in form.email.errors %}
+        <p class="mensagem-erro">{{ erro }}</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-post-img" style="flex-direction: column; gap: 1rem; width: 100%">
         {{ form.csrf_token }}
-        <div class="div-foto-usuario">
-            <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil.imagem)) }}"
-                 alt="Logo do usuário {{ usuario.username }}">
-        </div>
-        <h2 class="nome-usuario">{{ usuario.username }}</h2>
-
-        <div class="div-input">
-            {{ form.username.label(class='label') }}
-            {{ form.username(class='input', value=usuario.username) }}
-            {% if form.username.errors %}
-                {% for erro in form.username.errors %}
-                    <p class="mensagem-erro">{{ erro }}</p>
+        <label for="bloco-arquivo" class="div-input">
+            <p>Escolha sua foto de perfil</p>
+            <div class="bloco-arquivo" style="flex-direction: column; gap: 0.5rem" id="bloco-arquivo">
+                <label for="foto" class="botao-arquivo">
+                    Escolher arquivo
+                    {{ form.foto(class='input-arquivo', id='foto') }}
+                </label>
+                <span id="imagem-arquivo" class=""></span>
+                {% if form.foto.errors %}
+                {% for erro in form.foto.errors %}
+                <p class="mensagem-erro">{{ erro }}</p>
                 {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="div-input">
-            {{ form.email.label(class='label') }}
-            {{ form.email(class='input', value=usuario.email) }}
-            {% if form.email.errors %}
-                {% for erro in form.email.errors %}
-                    <p class="mensagem-erro">{{ erro }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div class="form-post-img" style="flex-direction: column; gap: 1rem; width: 100%">
-            {{ form.csrf_token }}
-            <label for="bloco-arquivo" class="div-input">
-                <p>Escolha sua foto de perfil</p>
-                <div class="bloco-arquivo" style="flex-direction: column; gap: 0.5rem" id="bloco-arquivo">
-                    <label for="foto" class="botao-arquivo">
-                        Escolher arquivo
-                        {{ form.foto(class='input-arquivo', id='foto') }}
-                    </label>
-                    <span id="imagem-arquivo" class=""></span>
-                    {% if form.foto.errors %}
-                        {% for erro in form.foto.errors %}
-                            <p class="mensagem-erro">{{ erro }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </label>
-            {{ form.botao_confirmacao(class='botao-login') }}
-        </div>
-    </form>
-{% endblock %}
-
-{% block script %}
-    <script>
-        let input = document.getElementById("foto");
-        let imagemArquivo = document.getElementById("imagem-arquivo");
-
-        input.addEventListener("change", () => {
-            let inputImagem = document.querySelector("input[type=file]").files[0];
-
-            imagemArquivo.classList.add("visivel");
-            imagemArquivo.innerText = inputImagem.name;
-        });
-    </script>
+                {% endif %}
+            </div>
+        </label>
+        {{ form.botao_confirmacao(class='botao-login') }}
+    </div>
+</form>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
 {% endblock %}
