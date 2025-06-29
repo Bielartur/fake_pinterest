@@ -10,6 +10,13 @@ from fakepinterest import app, database, bcrypt
 from fakepinterest.models import Usuario, Foto, FotoPerfil
 from fakepinterest.forms import FormFoto, FormLogin, FormCriarConta, FormEditarPerfil
 
+def salvar_foto_perfil(file_storage, user_id):
+    filename = secure_filename(file_storage.filename)
+    upload_folder = current_app.config['UPLOAD_FOLDER_PERFIL']
+    os.makedirs(os.path.join(current_app.root_path, upload_folder), exist_ok=True)
+    path = os.path.join(current_app.root_path, upload_folder, filename)
+    file_storage.save(path)
+    return filename
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -26,42 +33,35 @@ def homepage():
 
 @app.route('/criarconta', methods=['GET', 'POST'])
 def criarconta():
-    form_criarconta = FormCriarConta()
-    if form_criarconta.validate_on_submit():
-        # Cria o usuário
-        senha = bcrypt.generate_password_hash(form_criarconta.senha.data).decode('utf-8')
+    form = FormCriarConta()
+    if form.validate_on_submit():
+        # 1) Cria o usuário
+        hashed = bcrypt.generate_password_hash(form.senha.data).decode('utf-8')
         usuario = Usuario(
-            username=form_criarconta.username.data,
-            email=form_criarconta.email.data,
-            senha=senha,
+            username=form.username.data,
+            email=form.email.data,
+            senha=hashed
         )
+
+        # 2) Prepara objeto de foto (padrão) em memória
+        if form.foto.data:
+            filename = salvar_foto_perfil(form.foto.data, None)
+            usuario.foto_perfil = FotoPerfil(imagem=filename)
+        else:
+            # caso sem upload ou inválido, vai usar imagem padrão definida no model
+            usuario.foto_perfil = FotoPerfil()
+
+        # 3) Persiste tudo de uma vez
         database.session.add(usuario)
         database.session.commit()
 
-        # Cria define uma foto padrão ao usuário
-        usuario = Usuario.query.filter_by(username=form_criarconta.username.data).first()
-
-        if form_criarconta.foto.data:
-            arquivo = form_criarconta.foto.data
-            nome_seg = secure_filename(arquivo.filename)
-            pasta_perfil = current_app.config['UPLOAD_FOLDER_PERFIL']
-            caminho = os.path.join(current_app.root_path, pasta_perfil, nome_seg)
-            arquivo.save(caminho)
-
-            if usuario.foto_perfil:
-                usuario.foto_perfil.imagem = nome_seg
-            else:
-                fp = FotoPerfil(imagem=nome_seg, id_usuario=usuario.id)
-                database.session.add(fp)
-        else:
-            fp = FotoPerfil(id_usuario=usuario.id)
-            database.session.add(fp)
-
-        database.session.commit()
+        # 4) Login e redirecionamento
         login_user(usuario, remember=True)
+        flash('Conta criada com sucesso!', 'success')
         return redirect(url_for('feed'))
-    return render_template('criarconta.html', form=form_criarconta)
 
+    # GET ou erro de validação
+    return render_template('criarconta.html', form=form)
 
 @app.route('/perfil/<int:id_usuario>', methods=['GET', 'POST'])
 @login_required
@@ -74,7 +74,6 @@ def perfil(id_usuario):
             'perfil.html',
             usuario=usuario,
             form_foto=None,
-            form_perfil=None
         )
 
     # 2) É o próprio usuário: instancia os dois formulários
@@ -104,7 +103,6 @@ def perfil(id_usuario):
         flash('Postagem adicionada com sucesso!', 'success')
         return redirect(url_for('perfil', id_usuario=usuario.id))
 
-    # 5) GET: renderiza ambos os formulários para edição
     return render_template(
         'perfil.html',
         usuario=usuario,
@@ -119,10 +117,6 @@ def editar_perfil(id_usuario):
         return redirect(url_for('perfil', id_usuario=current_user.id))
     usuario = Usuario.query.get(current_user.id)
 
-    if request.method == 'POST':
-        print('> request.files:', request.files)  # deve ter chave 'foto'
-        print('> request.form:', request.form)
-
     form_perfil = FormEditarPerfil()
 
     if form_perfil.validate_on_submit():
@@ -131,11 +125,7 @@ def editar_perfil(id_usuario):
         usuario.email = form_perfil.email.data if form_perfil.email.data else current_user.email
 
         if form_perfil.foto.data:
-            arquivo = form_perfil.foto.data
-            nome_seg = secure_filename(arquivo.filename)
-            pasta_perfil = current_app.config['UPLOAD_FOLDER_PERFIL']
-            caminho = os.path.join(current_app.root_path, pasta_perfil, nome_seg)
-            arquivo.save(caminho)
+            nome_seg = salvar_foto_perfil(form_perfil.foto.data, current_user.id)
 
             if usuario.foto_perfil:
                 usuario.foto_perfil.imagem = nome_seg
