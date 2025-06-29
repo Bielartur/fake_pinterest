@@ -44,7 +44,11 @@ Talisman(
 
 load_dotenv()
 if int(os.getenv('DEBUG')) == 0:
-    LINK_BANCO = os.getenv('DATABASE_URL')
+    db_url = os.getenv('DATABASE_URL')
+    # SQLAlchemy 2.x precisa de 'postgresql://', não 'postgres://'
+    if db_url and db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    LINK_BANCO = db_url
 else:
     LINK_BANCO = 'sqlite:///comunidade.db'
 
